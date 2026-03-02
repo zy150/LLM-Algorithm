@@ -1,0 +1,5 @@
+grpo.py为主算法逻辑，纯粹的原生torch实现，连采样n次都是torch的repeat，但实际可以用Transformer的n次采样，效率更高
+
+data.py实际是验证答案的逻辑函数
+
+数据集基于GSM8k
