@@ -7,6 +7,7 @@ from tqdm import tqdm
 import time
 from torch import nn
 import math
+import os
 import swanlab
 from data import GSM8KRatingUtils
 
@@ -116,7 +117,11 @@ class GRPO():
       
     self.dataloader = DataLoader(PromptDataset(data_path, self.tokenizer), batch_size=self.cfg.grpo.batch_size)
     if self.log:
-      swanlab.login(api_key="73s0aS3od1jIatxssfJJ8", save=True)
+      # 从环境变量读取凭据，不要将真实 API key 写入代码或提交到 Git。
+      api_key = os.environ.get("SWANLAB_API_KEY", "").strip()
+      if not api_key:
+        raise RuntimeError("启用 SwanLab 日志前，请先设置 SWANLAB_API_KEY 环境变量。")
+      swanlab.login(api_key=api_key, save=False)
       # https://docs.swanlab.cn/api/py-init.html
       swanlab.init(
             project="LLM-RL",
